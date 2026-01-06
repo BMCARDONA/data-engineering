@@ -39,7 +39,7 @@ def main():
             for date, row in hist.iterrows():
                 try:
                     cur.execute("""
-                        INSERT INTO daily_stock_prices 
+                        INSERT INTO fact_stock_prices_daily
                         (symbol, date, open, high, low, close, volume, dividends, stock_splits)
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                         ON CONFLICT (symbol, date) DO NOTHING
