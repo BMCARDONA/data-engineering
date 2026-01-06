@@ -7,10 +7,10 @@ load_dotenv()
 
 def get_db_connection():
     return psycopg2.connect(
-        dbname="finance_tracker",
-        user="postgres",
+        dbname=s.getenv('DB_NAME'),
+        user=s.getenv('DB_USER'),
         password=os.getenv('DB_PASSWORD'),
-        host="localhost"
+        host=s.getenv('DB_HOST')
     )
 
 def main():
