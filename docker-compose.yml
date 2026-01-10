@@ -1,5 +1,5 @@
 services:
-  postgres:
+  weather-db:
     image: postgres:16
     container_name: weather_tracker_db
     environment:
@@ -16,8 +16,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - weather_network
 
-  etl:
+  weather-etl-jobs:
     build:
       context: .
       dockerfile: Dockerfile
@@ -29,11 +31,10 @@ services:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
     depends_on:
-      postgres:
+      weather-db:
         condition: service_healthy
     volumes:
       - ./etl:/app/etl
       - ./database:/app/database
-
-volumes:
-  postgres_data:
+    networks:
+      - weather_network
