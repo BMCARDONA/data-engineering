@@ -57,7 +57,9 @@ services:
       - weather_network
   
   airflow-setup:
-    image: apache/airflow:2.8.1-python3.11
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
     container_name: airflow_init
     depends_on:
       airflow-metadata-db:
@@ -80,7 +82,9 @@ services:
       - weather_network
 
   airflow-web-ui:
-    image: apache/airflow:2.8.1-python3.11
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
     container_name: airflow_webserver
     depends_on:
       airflow-metadata-db:
@@ -115,7 +119,9 @@ services:
       - weather_network
 
   airflow-task-scheduler:
-    image: apache/airflow:2.8.1-python3.11
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
     container_name: airflow_scheduler
     depends_on:
       airflow-metadata-db:
