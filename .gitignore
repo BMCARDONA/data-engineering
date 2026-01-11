@@ -1,8 +1,42 @@
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.py[cod]
+
+# Environment and secrets
 .env
+.aws_config
+*.csv
+
+# Virtual environments
 venv/
 env/
+
+# IDE
 .vscode/
+.idea/
+*.swp
+
+# Local config
 config.py
 *.db
+
+# AWS credentials (double-check these never get committed!)
+~/.aws/credentials
+~/.aws/config
+
+# Docker volumes (if you ever run locally without Docker)
+postgres_data/
+airflow_postgres_data/
+airflow_logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.log
+
+# Jupyter notebooks checkpoints (if you add analysis later)
+.ipynb_checkpoints/
+EOF

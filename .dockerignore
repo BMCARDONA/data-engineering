@@ -1,24 +1,34 @@
-# Python cache
 __pycache__/
 *.pyc
+*.pyo
+*.py[cod]
 
-# Sensitive files
 .env
+.aws_config
 config.py
 *.db
+*.csv
 
-# Virtual environments
 venv/
 env/
 
-# IDE settings
 .vscode/
+.idea/
+*.swp
 
-# Git files
 .git/
 .gitignore
 
-# Docker files
 Dockerfile
+Dockerfile.airflow
 .dockerignore
 docker-compose.yml
+
+postgres_data/
+airflow_postgres_data/
+airflow_logs/
+
+.DS_Store
+Thumbs.db
+*.log
+EOF
