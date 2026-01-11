@@ -1,39 +1,34 @@
-
 """
-Just putting a sample DAG docs here for now.
+DAG to collect hourly weather data for Manhattan neighborhoods.
 """
 
-from airflow.operators.python import PythonOperator
-from datetime import datetime, timedelta
-from airflow import DAG
+from datetime import timedelta
 import pendulum
+from airflow.decorators import dag, task
 import sys
 import os
 
 sys.path.insert(0, '/opt/airflow/etl')
 from collect_current_weather import collect_hourly_weather
 
-
-with DAG(
-    'weather_hourly_collection',                    
-    default_args = {
-    'owner': 'airflow',                    
-    'depends_on_past': False,              
-    'email_on_failure': False,             
-    'email_on_retry': False,
-    'retries': 2,                          
-    'retry_delay': timedelta(minutes=5),   
+@dag(
+    dag_id='weather_hourly_collection',
+    default_args={
+        'owner': 'airflow',
+        'retries': 2,
+        'retry_delay': timedelta(minutes=5),
     },
     description='Collect current Manhattan weather data every hour',
-    schedule_interval='@hourly',                           
-    start_date=pendulum.today('America/New_York'),                     
-    catchup=True,                                         
-    tags=['weather', 'etl', 'hourly'],  
-    max_active_runs=1,                 
-) as dag:
-    collect_weather_task = PythonOperator(
-        task_id='collect_current_weather',           
-        python_callable=collect_hourly_weather,                                    
-    ) 
+    schedule='@hourly',
+    start_date=pendulum.datetime(2026, 1, 10, tz='America/New_York'),
+    catchup=False,  
+    tags=['weather', 'etl', 'hourly'],
+    max_active_runs=1,
+)
+def weather_hourly_collection():
+    @task()
+    def collect_current_weather():
+        collect_hourly_weather()
+    collect_current_weather()
 
-dag.doc_md = __doc__ 
+weather_dag = weather_hourly_collection()
